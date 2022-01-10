@@ -4,9 +4,8 @@ Prometheus-Grafana
 A monitoring solution for Docker hosts and containers with [Prometheus](https://prometheus.io/), [Grafana](http://grafana.org/), [cAdvisor](https://github.com/google/cadvisor),
 [NodeExporter](https://github.com/prometheus/node_exporter) and alerting with [AlertManager](https://github.com/prometheus/alertmanager).  
 
-This is a forked repository. So, you may want to visit the original repo at [stefanprodan
-/
-dockprom](https://github.com/stefanprodan/dockprom)
+This is a forked repository. So, you may want to visit the original repos at [Einsteinish](https://github.com/Einsteinish/Docker-Compose-Prometheus-and-Grafana.git) and
+[stefanprodan / dockprom](https://github.com/stefanprodan/dockprom)
 
 Additional info: [Docker - Prometheus and Grafana](https://bogotobogo.com/DevOps/Docker/Docker_Prometheus_Grafana.php)
 
@@ -18,10 +17,10 @@ ADMIN_USER=admin
 ADMIN_PASSWORD=admin
 ```
 
-### Clone this repository on your Docker host, cd into test directory and run compose up:
+### Clone this repository on your Docker host, cd into your test directory and run compose up:
 
 ```
-git clone https://github.com/Einsteinish/Docker-Compose-Prometheus-and-Grafana.git
+git clone https://github.com/igyori/Docker-Compose-Prometheus-and-Grafana.git
 cd Docker-Compose-Prometheus-and-Grafana
 docker-compose up -d
 ```
@@ -40,6 +39,8 @@ docker-compose up -d
 * NodeExporter (host metrics collector)
 * cAdvisor (containers metrics collector)
 * Caddy (reverse proxy and basic auth provider for prometheus and alertmanager)
+
+If you are testing on your local machine, which is strongly adived, replace `<host-ip>` with `localhost`. So you can access e.g. Proemtheus at this url: `http://localhost:9090`.
 
 ## Setup Grafana
 
@@ -361,3 +362,27 @@ To run the grafana container as `user: 104` change your `docker-compose.yml` lik
     labels:
       org.label-schema.group: "monitoring"
 ```
+
+## Stopping the stack and cleanup
+
+Choose one of the following options, to stop the locally running monitoring stack.
+
+### Stop the monitoring stack
+
+To stop the running containers without removing them, cd into your test directory and run compose up and use the following command:
+
+    docker-compose stop
+
+The containers can be started again with docker-compose start.
+
+### Stop and remove resources created by the the monitoring stack
+
+To stop the running containers and remove resources created by them, cd into your test directory and run the following command:
+
+    docker-compose down --rmi local -v
+
+### Full local cleanup, that also removes all orhpaned docker images
+
+To stop the running containers and remove resources created by them, and also remove the locally cached, orphaned docker images, run the following command:
+
+    docker-compose down --rmi all -v --remove-orphans
